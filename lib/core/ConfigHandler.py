@@ -20,8 +20,6 @@ class ConfigHandler(object):
 
         self.config = self.LoadConfig()
 
-        self.CheckConfig()
-
     def CreateConfigDirectory(self):
         if not os.path.exists(self.configdir):
             print("Configuration directory {dir} does not exist".format(dir=self.configdir))
@@ -38,8 +36,11 @@ class ConfigHandler(object):
             print("Config not found. Copying Default to {file}".format(file=self.configfile))
 
     def LoadConfig(self):
-        return yaml.load(open(self.configfile,'rb').read())
+        config = yaml.load(open(self.configfile,'rb').read())
+        self.CheckConfig(config)
+        return config
 
-    def CheckConfig(self):
+    def CheckConfig(self, config):
         print("Yaml Data")
-        print(self.config)
+        print(config)
+
