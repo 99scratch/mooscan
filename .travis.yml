@@ -5,10 +5,9 @@ python:
   - 3.5
   - 3.6
 
-env: LIBGIT2=~/libgit2/_install/ LD_LIBRARY_PATH=~/libgit2/_install/lib
-
 before_install:
   - sudo apt-get install cmake
+  - sudp apt-get install libgit2
   - pip install cffi
 
 install:
