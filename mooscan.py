@@ -12,6 +12,8 @@ def main():
     parser = CliArgHandler()
     arguments = parser.parse(sys.argv[1:])
 
+    print(arguments)
+
     startup_tasks()
 
 def startup_tasks():

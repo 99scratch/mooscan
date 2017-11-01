@@ -11,43 +11,40 @@ class CliArgHandler(object):
     def setup_cli_parser():
         parser = ArgumentParser()
 
-        update = parser.add_mutually_exclusive_group()
-        update.add_argument(
-            '-u', '--url',
-            dest='url',
+        parser.add_argument(
+            '--url',
             help='Moodle Host to scan Ex: '
                  'https://www.mymoodle.com. Use full path if required'
         )
 
-        update.add_argument(
-            '-up','--update',
-            dest='update',
+        parser.add_argument(
+            '-u','--update',
+            action='store_true',
             help='Start update of the tool. This may take a while, perhaps go to lunch now.'
         )
 
         parser.add_argument(
             '-a','--allscans',
-            dest='allscans',
+            action='store_true',
             default=True,
             help='Run all possible scans. This is enabled by default'
         )
 
         parser.add_argument(
             '-ht', '--htaccess',
-            dest='htaccess',
+            action='store_true',
             help='Generate .htaccess file to prevent access to discovered files'
         )
 
         parser.add_argument(
             '-v','--verbose',
-            dest='verbose',
-            choices=[0,1,2,3],
+            action='count',
             help='Use Verbose mode'
         )
 
         parser.add_argument(
             '-V','--version',
-            dest='version',
+            action='store_true',
             help='Version of mooscan'
         )
 
