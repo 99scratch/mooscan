@@ -1,13 +1,23 @@
 language: python
+
 python:
-  - 3.4
-  - 3.5
-  - 3.6
+	- 3.4
+ 	- 3.5
+ 	- 3.6
+
+env: LIBGIT2=~/libgit2/_install/ LD_LIBRARY_PATH=~/libgit2/_install/lib
+
+before_install:
+  - sudo apt-get install cmake
+  - pip install cffi
+
 install:
   - pip --version
   - pip install -r test-requirements.txt
   - pip install pep8 
+
 before_script:
   - pep8 -v *.py lib/
+
 script:
   - pytest
