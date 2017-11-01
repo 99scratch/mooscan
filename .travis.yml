@@ -7,7 +7,7 @@ python:
 
 before_install:
   - sudo apt-get install cmake
-  - sudp apt-get install libgit2
+  - sudo apt-get install libgit2
   - pip install cffi
 
 install:
