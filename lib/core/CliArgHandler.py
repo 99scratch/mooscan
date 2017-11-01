@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 
+
 class CliArgHandler(object):
     def __init__(self):
         self._parser = self.setup_cli_parser()
@@ -18,32 +19,39 @@ class CliArgHandler(object):
         )
 
         parser.add_argument(
-            '-u','--update',
+            '-u',
+            '--update',
             action='store_true',
-            help='Start update of the tool. This may take a while, perhaps go to lunch now.'
+            help='Start update of the tool. This may take a while, '
+                 'perhaps go to lunch now.'
         )
 
         parser.add_argument(
-            '-a','--allscans',
+            '-a',
+            '--allscans',
             action='store_true',
             default=True,
             help='Run all possible scans. This is enabled by default'
         )
 
         parser.add_argument(
-            '-ht', '--htaccess',
+            '-ht',
+            '--htaccess',
             action='store_true',
-            help='Generate .htaccess file to prevent access to discovered files'
+            help='Generate .htaccess file to prevent access to '
+                 'discovered files'
         )
 
         parser.add_argument(
-            '-v','--verbose',
+            '-v',
+            '--verbose',
             action='count',
             help='Use Verbose mode'
         )
 
         parser.add_argument(
-            '-V','--version',
+            '-V',
+            '--version',
             action='store_true',
             help='Version of mooscan'
         )

@@ -6,6 +6,7 @@ from lib.core.banner import banner
 from lib.core.ConfigHandler import ConfigHandler
 from lib.core.CliArgHandler import CliArgHandler
 
+
 def main():
     print(banner(__version__).banner())
 
@@ -15,6 +16,7 @@ def main():
     print(arguments)
 
     startup_tasks()
+
 
 def startup_tasks():
     ConfigHandler()
