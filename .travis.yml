@@ -5,11 +5,6 @@ python:
   - 3.5
   - 3.6
 
-before_install:
-  - sudo apt-get install cmake
-  - sudo apt-get install libgit2-dev
-  - pip install cffi
-
 install:
   - pip --version
   - pip install -r test-requirements.txt
