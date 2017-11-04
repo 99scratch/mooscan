@@ -11,7 +11,7 @@ class UrlValidator(argparse.Action):
         super(UrlValidator, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        #print('%r %r %r' % (namespace, values, option_string))
+        # print('%r %r %r' % (namespace, values, option_string))
 
         print("Validating URL: {url}".format(url=values))
         url = values

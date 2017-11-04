@@ -1,6 +1,5 @@
 
 
-
 class UpdateHandler(object):
 
     def __init__(self, arguments, config):
