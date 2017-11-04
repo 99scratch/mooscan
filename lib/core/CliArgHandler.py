@@ -4,9 +4,8 @@ from lib.core.__version__ import __version__
 
 
 class CliArgHandler(object):
-    def __init__(self, config):
+    def __init__(self):
         self._parser = self.setup_cli_parser()
-        self.config = config
 
     def parse(self, argv):
         return self._parser.parse_args(argv)

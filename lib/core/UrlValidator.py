@@ -31,7 +31,9 @@ class UrlValidator(argparse.Action):
         found = 0
         for page in pages:
             testurl = url + page
-            headers = {'User-agent', self.config['user_agent']}
+            headers = {
+                'User-Agent': self.config['user_agent']
+            }
             r = requests.get(testurl, headers=headers)
             # TODO: Set the User-Agent header as per config file
             if(r.status_code == 200):

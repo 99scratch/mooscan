@@ -3,6 +3,7 @@ import pytest
 import responses
 from pytest_mock import mocker
 from lib.core.CliArgHandler import CliArgHandler
+from lib.core.__version__ import __version__
 
 
 valid_test_site = 'http://www.testsite.com'
@@ -22,8 +23,7 @@ def test_cliarg_default_values():
             'htaccess': False,
             'update': False,
             'url': None,
-            'verbose': None,
-            'version': False
+            'verbose': None
     }
 
     # Assert
@@ -44,8 +44,7 @@ def test_cliarg_host_value():
         'htaccess': False,
         'update': False,
         'url': valid_test_site,
-        'verbose': None,
-        'version': False
+        'verbose': None
     }
 
     # Assert
@@ -99,8 +98,7 @@ def test_url_is_moodle_validate():
         'htaccess': False,
         'update': False,
         'url': httpurl,
-        'verbose': None,
-        'version': False
+        'verbose': None
     }
 
     # Act
