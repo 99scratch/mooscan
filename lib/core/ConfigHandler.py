@@ -20,6 +20,7 @@ class ConfigHandler(object):
         self.CreateConfig()
 
         self.config = self.LoadConfig()
+        return self.config
 
     def CreateConfigDirectory(self):
         if not os.path.exists(self.configdir):
@@ -40,9 +41,9 @@ class ConfigHandler(object):
 
     def LoadConfig(self):
         config = yaml.load(open(self.configfile, 'rb').read())
-        self.CheckConfig(config)
-        return config
+        checked = self.CheckConfig(config)
+        return checked
 
     def CheckConfig(self, config):
-        print("Yaml Data")
+        print("Validate the config here")
         print(config)
