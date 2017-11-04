@@ -48,3 +48,16 @@ def test_cliarg_host_value():
 
     # Assert
     assert vars(arguments) == expected_args
+
+
+def test_invalid_url_format():
+    
+    # Arrange
+    argv = ['--url', 'invalidurl']
+
+    # Act
+    parser = CliArgHandler()
+
+    # Assert
+    with pytest.raises(SystemExit):
+        parser.parse(argv)
