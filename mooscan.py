@@ -11,9 +11,10 @@ from lib.core.CliArgHandler import CliArgHandler
 loaded_config = None
 arguments = None
 
+
 def main():
     print(banner(__version__).banner())
-    
+
     parser = CliArgHandler()
     arguments = parser.parse(sys.argv[1:])
 
