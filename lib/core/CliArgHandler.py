@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from lib.core.UrlValidator import UrlValidator
 
 
 class CliArgHandler(object):
@@ -14,6 +15,7 @@ class CliArgHandler(object):
 
         parser.add_argument(
             '--url',
+            action=UrlValidator,
             help='Moodle Host to scan Ex: '
                  'https://www.mymoodle.com. Use full path if required'
         )

@@ -2,7 +2,9 @@ import argparse
 import pytest
 from lib.core.CliArgHandler import CliArgHandler
 
+
 valid_test_site = 'http://www.testsite.com'
+
 
 def test_cliarg_default_values():
 
@@ -14,16 +16,17 @@ def test_cliarg_default_values():
     arguments = parser.parse(argv)
 
     expected_args = {
-            'allscans': True, 
-            'htaccess': False, 
-            'update': False, 
-            'url': None, 
-            'verbose': None, 
+            'allscans': True,
+            'htaccess': False,
+            'update': False,
+            'url': None,
+            'verbose': None,
             'version': False
     }
 
     # Assert
     assert vars(arguments) == expected_args
+
 
 def test_cliarg_host_value():
 
@@ -41,8 +44,7 @@ def test_cliarg_host_value():
         'url': valid_test_site,
         'verbose': None,
         'version': False
-    } 
+    }
 
     # Assert
     assert vars(arguments) == expected_args
-
