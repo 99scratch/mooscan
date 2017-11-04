@@ -15,16 +15,15 @@ arguments = None
 def main():
     print(banner(__version__).banner())
 
-    parser = CliArgHandler()
-    arguments = parser.parse(sys.argv[1:])
-
     startup_tasks()
+
+    arguments = CliArgHandler(loaded_config).parse(sys.argv[1:])
 
     UpdateHandler(arguments, loaded_config)
 
 
 def startup_tasks():
-    loaded_config = ConfigHandler()
+    loaded_config = ConfigHandler().LoadConfig()
 
 if __name__ == "__main__":
     main()

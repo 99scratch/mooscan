@@ -1,10 +1,12 @@
 from argparse import ArgumentParser
 from lib.core.UrlValidator import UrlValidator
+from lib.core.__version__ import __version__
 
 
 class CliArgHandler(object):
-    def __init__(self):
+    def __init__(self, config):
         self._parser = self.setup_cli_parser()
+        self.config = config
 
     def parse(self, argv):
         return self._parser.parse_args(argv)
@@ -54,7 +56,8 @@ class CliArgHandler(object):
         parser.add_argument(
             '-V',
             '--version',
-            action='store_true',
+            action='version',
+            version=__version__,
             help='Version of mooscan'
         )
 

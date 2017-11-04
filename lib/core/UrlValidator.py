@@ -1,10 +1,13 @@
 import requests
 import argparse
 import re
+from lib.core.ConfigHandler import ConfigHandler
 
 
 class UrlValidator(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        config = ConfigHandler()
+        self.config = config.LoadConfig()
 
         if nargs is not None:
             raise ValueError("nargs is not allowed")
@@ -28,7 +31,8 @@ class UrlValidator(argparse.Action):
         found = 0
         for page in pages:
             testurl = url + page
-            r = requests.get(testurl)
+            headers = {'User-agent', self.config['user_agent']}
+            r = requests.get(testurl, headers=headers)
             # TODO: Set the User-Agent header as per config file
             if(r.status_code == 200):
                 found += 1

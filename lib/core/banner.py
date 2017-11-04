@@ -4,7 +4,7 @@ class banner(object):
         self.version = version
 
     def banner(self):
-        return """
+        banner = """
           ____
         ,'  , `.                   .--.--.
      ,-+-,.' _ |                  /  /    '.
@@ -19,9 +19,12 @@ class banner(object):
 ;   | |`-'       `----'   `----'   `--'---' |   :    ;  :   .'   |   |/
 |   ;/                                       \   \  /|  ,     .-.'---'
 '---'                                         `----'  `--`---'
-MooScan - by @vortexau
-Please do not use this tool against environments you do not have explicit
- permission to scan.
-The author will not be held responsible for any unauthorised usage of this
- software.
 """
+
+        text = """MooScan - by @vortexau
+Please do not use this tool against environments you do not have explicit
+permission to scan.
+The author will not be held responsible for any unauthorised usage of this
+software.
+"""
+        return banner + text
