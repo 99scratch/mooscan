@@ -2,6 +2,7 @@ import os
 import yaml
 import sys
 from shutil import copyfile
+from lib.core.TextHandler import TextHandler
 
 
 class ConfigHandler(object):
@@ -23,16 +24,16 @@ class ConfigHandler(object):
 
     def CreateConfigDirectory(self):
         if not os.path.exists(self.configdir):
-            print("Configuration directory {dir} does not exist".
-                  format(dir=self.configdir))
+            TextHandler().debug("Configuration directory {dir} does not exist".
+                                format(dir=self.configdir))
             os.makedirs(self.configdir)
             print("Directory Created")
 
     def CreateConfig(self):
         if not os.path.exists(self.configfile):
             copyfile('doc/mooscan.conf.skel', self.configfile)
-            print("Config not found. Copying Default to {file}".
-                  format(file=self.configfile))
+            TextHandler().debug("Config not found. Copying Default to {file}".
+                                format(file=self.configfile))
 
     def LoadConfig(self):
         config = yaml.load(open(self.configfile, 'rb').read())

@@ -17,7 +17,7 @@ def main():
 
     startup_tasks()
 
-    arguments = CliArgHandler(loaded_config).parse(sys.argv[1:])
+    arguments = CliArgHandler().parse(sys.argv[1:])
 
     UpdateHandler(arguments, loaded_config)
 

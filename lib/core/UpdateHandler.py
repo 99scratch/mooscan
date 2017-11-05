@@ -1,3 +1,4 @@
+from lib.core.TextHandler import TextHandler
 
 
 class UpdateHandler(object):
@@ -5,7 +6,7 @@ class UpdateHandler(object):
     def __init__(self, arguments, config):
         self.args = arguments
         self.config = config
-        print(self.args)
+        TextHandler().debug(self.args)
 
         if(self.update_needed()):
             self.update_git()
