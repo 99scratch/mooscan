@@ -8,7 +8,6 @@ from lib.core.UpdateHandler import UpdateHandler
 from lib.core.CliArgHandler import CliArgHandler
 
 
-loaded_config = None
 arguments = None
 
 
@@ -16,6 +15,7 @@ def main():
     print(banner(__version__).banner())
 
     startup_tasks()
+    loaded_config = ConfigHandler().LoadConfig()
 
     arguments = CliArgHandler().parse(sys.argv[1:])
 
@@ -23,7 +23,7 @@ def main():
 
 
 def startup_tasks():
-    loaded_config = ConfigHandler().LoadConfig()
+    print("Startup")
 
 if __name__ == "__main__":
     main()
