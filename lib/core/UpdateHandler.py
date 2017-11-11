@@ -11,13 +11,8 @@ class UpdateHandler(object):
         self.config = config
         TextHandler().debug(self.args)
 
-        if(not self.git_repo_present()):
-            self.build_git()
-            self.build_modules()
-
         if(self.update_needed()):
             self.update_git()
-            self.update_modules()
 
     def update_needed(self):
         # Check for 'update=True' in args
@@ -33,7 +28,7 @@ class UpdateHandler(object):
 
         return false
 
-    def git_repo_present(self):
+    def update_git(self):
 
         # Check if the git directory is present
         path = "~/{mooscan}/{git}".format(mooscan=self.config['mooscan_path'],
@@ -64,9 +59,6 @@ class UpdateHandler(object):
 
     def modules_update_required(self):
         return True
-
-    def update_git(self):
-        print("Update the local git repository")
 
     def update_modules(self):
         print("Update the modules and save into the database")
