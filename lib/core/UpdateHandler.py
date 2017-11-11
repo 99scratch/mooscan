@@ -1,4 +1,5 @@
 import os
+from git import Repo
 from lib.core.TextHandler import TextHandler
 
 
@@ -10,7 +11,7 @@ class UpdateHandler(object):
         self.config = config
         TextHandler().debug(self.args)
 
-        if(not self.data_present()):
+        if(not self.git_repo_present()):
             self.build_git()
             self.build_modules()
 
@@ -32,13 +33,30 @@ class UpdateHandler(object):
 
         return false
 
-    def data_present(self):
+    def git_repo_present(self):
+
         # Check if the git directory is present
         path = "~/{mooscan}/{git}".format(mooscan=self.config['mooscan_path'],
                                           git=self.config['git_path'])
         gitpath = os.path.expanduser(path)
-        print("Checking if git directory is present")
-        # Check if it's populated
+
+        if(os.path.exists(gitpath)):
+            TextHandler().debug("Moodle code discovered at {dir}. "
+                                "Getting latest."
+                                .format(dir=gitpath))
+            repo = Repo(gitpath)
+            pull = repo.remotes.origin
+            pull.pull()
+            TextHandler().debug("Done")
+            # Check the date of the last repo pull
+        else:
+            TextHandler().debug("Creating target git repository at {dir}"
+                                .format(dir=gitpath))
+            os.makedirs(gitpath)
+            TextHandler().debug("Pulling the Moodle Git repo from {url}"
+                                .format(url=self.config['moodle_git']))
+            Repo.clone_from(self.config['moodle_git'], gitpath)
+            TextHandler().debug("Done")
         # Check if it's updated
 
     def git_update_required(self):
