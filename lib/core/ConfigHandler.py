@@ -13,7 +13,11 @@ class ConfigHandler(object):
 
     def __init__(self):
 
-        self.configdir = os.path.expanduser(self.CONFIG_PATH)
+        if os.environ.get('MOOSCAN_CONFIG_PATH'):
+            self.configdir = os.environ.get('MOOSCAN_CONFIG_PATH')
+        else:
+            self.configdir = os.path.expanduser(self.CONFIG_PATH)
+
         self.configfile = self.configdir + '/' + self.CONFIG_FILE
 
         # Path to the config
