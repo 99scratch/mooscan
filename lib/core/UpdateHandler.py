@@ -14,6 +14,9 @@ class UpdateHandler(object):
         if(self.update_needed()):
             self.update_git()
 
+        # Iterate through each tagged branch in the git repo
+        # and hash each file which is public.
+
     def update_needed(self):
         # Check for 'update=True' in args
         if(self.args.update is True):
