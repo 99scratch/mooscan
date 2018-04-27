@@ -8,6 +8,12 @@ A scanning tool for Moodle LMS
 * Allows administrators to determine exactly what is visible externally in their Moodle installation. 
 * A tool for penetration testers to find potential vulnerabilities in a Moodle installation by enumerating installed plugins, themes and libraries.
 
+## Docker Commands
+* Build container
+    * `docker-compose --build up`
+* Run unit-tests
+    * `docker-compose run --entrypoint pytest mooscan`
+
 ## Road Map
 To be defined once the basic (MVP!) tool is released, functional and reliable.
 
