@@ -3,6 +3,7 @@ import subprocess
 import time
 from git import Repo
 from lib.core.TextHandler import TextHandler
+from lib.core.DatabaseHandler import DatabaseHandler
 
 
 class UpdateHandler(object):
@@ -53,15 +54,14 @@ class UpdateHandler(object):
                                 .format(url=self.config['moodle_git']))
             Repo.clone_from(self.config['moodle_git'], self.gitpath)
             TextHandler().debug("Done")
-        # Check if it's updated
 
     def git_update_required(self):
         checkfile = "{gitpath}/.git/FETCH_HEAD".format(gitpath=self.gitpath)
         lastchange = subprocess.run(['stat',
-                                    '-c',
-                                    '%Y',
-                                    checkfile
-                                    ],stdout=subprocess.PIPE)
+                                     '-c',
+                                     '%Y',
+                                     checkfile
+                                    ], stdout=subprocess.PIPE)
         timestamp = int(lastchange.stdout.strip())
 
         exp = time.time() + (self.config['update_code_freq'] * 86400)
