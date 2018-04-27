@@ -57,7 +57,11 @@ class UpdateHandler(object):
 
     def git_update_required(self):
         checkfile = "{gitpath}/.git/FETCH_HEAD".format(gitpath=self.gitpath)
-        lastchange = subprocess.run(['stat','-c','%Y',checkfile],stdout=subprocess.PIPE)
+        lastchange = subprocess.run(['stat',
+                                    '-c',
+                                    '%Y',
+                                    checkfile
+                                    ],stdout=subprocess.PIPE)
         timestamp = int(lastchange.stdout.strip())
 
         exp = time.time() + (self.config['update_code_freq'] * 86400)
