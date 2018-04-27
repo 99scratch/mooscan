@@ -1,10 +1,14 @@
 import os
+import pytest
+from pytest_mock import mocker
 from lib.core.ConfigHandler import ConfigHandler
 
-def test_env_path():
+def test_env_path(mocker):
 
     # Arrange
     os.environ['MOOSCAN_CONFIG_PATH'] = '/some/new/path'
+
+    mocker.patch('os.makedirs')
 
     # Act
     handler = ConfigHandler()
@@ -13,9 +17,12 @@ def test_env_path():
     # Assert
     assert handler.GetConfigFile() == '/some/new/path/mooscan.conf'
 
-def test_config_validate():
+def test_config_validate(mocker):
 
     # Arrange
+    mocker.patch('os.makedirs')
+    mocker.patch('os.path.exists')
+
     config = {
             'mooscan_path': '~/.mooscan', 
             'git_path': 'moodle-git', 
@@ -29,7 +36,6 @@ def test_config_validate():
 
     # Act
     handler = ConfigHandler()
-    handler.LoadConfig()
 
     # Assert
-    assert handler.GetLoadedConfig() == config
+    assert handler.CheckConfig(config) == config

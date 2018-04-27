@@ -47,6 +47,9 @@ class ConfigHandler(object):
         config = yaml.load(open(self.configfile, 'rb').read())
         self.config = self.CheckConfig(config)
 
+    def SetLoadedConfig(self, config):
+        self.config = config
+
     def GetLoadedConfig(self):
         return self.config
 
