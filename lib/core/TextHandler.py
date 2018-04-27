@@ -1,4 +1,3 @@
-
 class TextHandler(object):
 
     # This doesn't do too much as yet.
@@ -6,16 +5,16 @@ class TextHandler(object):
     # to draw attention to certin types of errors, warnings etc.
 
     def info(self, text):
-        print("[I] {text}".format(text=text))
+        print("[I] {text}".format(text=text), flush=True)
 
     def emerg(self, text):
-        print("[EM] {text}".format(text=text))
+        print("[EM] {text}".format(text=text), flush=True)
 
     def error(self, text):
-        print("[E] {text}".format(text=text))
+        print("[E] {text}".format(text=text), flush=True)
 
     def warning(self, text):
-        print("[W] {text}".format(text=text))
+        print("[W] {text}".format(text=text), flush=True)
 
     def debug(self, text):
-        print("[D] {text}".format(text=text))
+        print("[D] {text}".format(text=text), flush=True)

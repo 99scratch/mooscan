@@ -34,8 +34,14 @@ class UpdateHandler(object):
     def update_git(self):
 
         # Check if the git directory is present
-        path = "~/{mooscan}/{git}".format(mooscan=self.config['mooscan_path'],
+        if os.environ.get('MOOSCAN_DATA_PATH'):
+            mooscan = os.environ.get('MOOSCAN_DATA_PATH')
+        else:
+            mooscan = self.config['mooscan_path']
+
+        path = "{mooscan}/{git}".format(mooscan=mooscan,
                                           git=self.config['git_path'])
+
         gitpath = os.path.expanduser(path)
 
         if(os.path.exists(gitpath)):

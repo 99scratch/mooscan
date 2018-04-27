@@ -1,0 +1,11 @@
+version: "3.2"
+services:
+    mooscan:
+        build: .
+        environment:
+            - MOOSCAN_CONFIG_PATH=/mooscan/.mooscan
+            - MOOSCAN_DATA_PATH=/mooscan/.mooscan
+        volumes:
+            - ".:/mooscan"
+        working_dir: /mooscan
+        entrypoint: /mooscan/mooscan.py

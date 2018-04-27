@@ -1,5 +1,5 @@
 # Skeleton configuration file
-mooscan_path: .mooscan
+mooscan_path: ~/.mooscan
 git_path: moodle-git
 update_module_freq: 14
 update_code_freq: 14
