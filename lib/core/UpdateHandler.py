@@ -40,7 +40,7 @@ class UpdateHandler(object):
             mooscan = self.config['mooscan_path']
 
         path = "{mooscan}/{git}".format(mooscan=mooscan,
-                                          git=self.config['git_path'])
+                                        git=self.config['git_path'])
 
         gitpath = os.path.expanduser(path)
 

@@ -34,7 +34,6 @@ class ConfigHandler(object):
             print("Directory Created")
 
     def CreateConfig(self):
-        print (os.getcwd())
         if not os.path.exists(self.configfile):
             copyfile('./doc/mooscan.conf.skel', self.configfile)
             TextHandler().debug("Config not found. Copying Default to {file}".
