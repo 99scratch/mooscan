@@ -57,6 +57,10 @@ class UpdateHandler(object):
 
     def git_update_required(self):
         checkfile = "{gitpath}/.git/FETCH_HEAD".format(gitpath=self.gitpath)
+
+        if not os.path.isfile(checkfile):
+            return True
+
         lastchange = subprocess.run(['stat',
                                      '-c',
                                      '%Y',
