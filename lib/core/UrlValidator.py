@@ -7,7 +7,8 @@ from lib.core.ConfigHandler import ConfigHandler
 class UrlValidator(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         config = ConfigHandler()
-        self.config = config.LoadConfig()
+        config.LoadConfig()
+        self.config = config.GetLoadedConfig()
 
         if nargs is not None:
             raise ValueError("nargs is not allowed")

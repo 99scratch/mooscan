@@ -15,7 +15,9 @@ def main():
     print(banner(__version__).banner())
 
     startup_tasks()
-    loaded_config = ConfigHandler().LoadConfig()
+    config = ConfigHandler()
+    config.LoadConfig()
+    loaded_config = config.GetLoadedConfig()
 
     arguments = CliArgHandler().parse(sys.argv[1:])
 

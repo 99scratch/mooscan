@@ -16,12 +16,6 @@ class ConfigHandler(object):
         # Load the config paths
         self.LoadConfigPaths()
 
-        # Path to the config
-        self.CreateConfigDirectory()
-        self.CreateConfig()
-
-        self.config = self.LoadConfig()
-
     def LoadConfigPaths(self):
 
         if os.environ.get('MOOSCAN_CONFIG_PATH'):
@@ -48,9 +42,13 @@ class ConfigHandler(object):
                                 format(file=self.configfile))
 
     def LoadConfig(self):
+        self.CreateConfigDirectory()
+        self.CreateConfig()
         config = yaml.load(open(self.configfile, 'rb').read())
-        checked = self.CheckConfig(config)
-        return checked
+        self.config = self.CheckConfig(config)
+
+    def GetLoadedConfig(self):
+        return self.config
 
     def CheckConfig(self, config):
         print("Validate the config here")
