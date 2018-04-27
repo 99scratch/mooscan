@@ -1,4 +1,6 @@
 import os
+import subprocess
+import time
 from git import Repo
 from lib.core.TextHandler import TextHandler
 
@@ -9,32 +11,21 @@ class UpdateHandler(object):
         print(config)
         self.args = arguments
         self.config = config
-        TextHandler().debug(self.args)
 
-        if(self.update_needed()):
+        self.build_git_path()
+
+        if(self.git_update_required() or self.args.update is True):
             self.update_git()
 
-        # Iterate through each tagged branch in the git repo
-        # and hash each file which is public.
+        if(self.modules_update_required() or self.args.update is True):
+            self.update_modules()
 
-    def update_needed(self):
-        # Check for 'update=True' in args
-        if(self.args.update is True):
-            return True
-
-        # Check the date on the previous update.
-        if(self.git_update_required()):
-            return True
-
-        if(self.modules_update_required()):
-            return True
-
-        return false
-
-    def update_git(self):
+    def build_git_path(self):
 
         # Check if the git directory is present
         if os.environ.get('MOOSCAN_DATA_PATH'):
+            TextHandler().debug("Environment variable MOOSCAN_DATA_PATH is "
+                                "set, ignoring config value")
             mooscan = os.environ.get('MOOSCAN_DATA_PATH')
         else:
             mooscan = self.config['mooscan_path']
@@ -42,35 +33,46 @@ class UpdateHandler(object):
         path = "{mooscan}/{git}".format(mooscan=mooscan,
                                         git=self.config['git_path'])
 
-        gitpath = os.path.expanduser(path)
+        self.gitpath = os.path.expanduser(path)
 
-        if(os.path.exists(gitpath)):
+    def update_git(self):
+
+        if(os.path.exists(self.gitpath)):
             TextHandler().debug("Moodle code discovered at {dir}. "
                                 "Getting latest."
-                                .format(dir=gitpath))
-            repo = Repo(gitpath)
+                                .format(dir=self.gitpath))
+            repo = Repo(self.gitpath)
             pull = repo.remotes.origin
             pull.pull()
             TextHandler().debug("Done")
-            # Check the date of the last repo pull
         else:
             TextHandler().debug("Creating target git repository at {dir}"
-                                .format(dir=gitpath))
-            os.makedirs(gitpath)
+                                .format(dir=self.gitpath))
+            os.makedirs(self.gitpath)
             TextHandler().debug("Pulling the Moodle Git repo from {url}"
                                 .format(url=self.config['moodle_git']))
-            Repo.clone_from(self.config['moodle_git'], gitpath)
+            Repo.clone_from(self.config['moodle_git'], self.gitpath)
             TextHandler().debug("Done")
         # Check if it's updated
 
     def git_update_required(self):
-        return True
+        checkfile = "{gitpath}/.git/FETCH_HEAD".format(gitpath=self.gitpath)
+        lastchange = subprocess.run(['stat','-c','%Y',checkfile],stdout=subprocess.PIPE)
+        timestamp = int(lastchange.stdout.strip())
+
+        exp = time.time() + (self.config['update_code_freq'] * 86400)
+
+        if(int(exp) < int(timestamp)):
+            return True
+        else:
+            return False
 
     def modules_update_required(self):
         return True
 
     def update_modules(self):
-        print("Update the modules and save into the database")
+        TextHandler().debug("Update the modules and save into the database")
+        TextHandler().debug("Done")
 
     def build_git(self):
         print("Build git")
