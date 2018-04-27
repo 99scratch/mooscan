@@ -13,6 +13,17 @@ class ConfigHandler(object):
 
     def __init__(self):
 
+        # Load the config paths
+        self.LoadConfigPaths()
+
+        # Path to the config
+        self.CreateConfigDirectory()
+        self.CreateConfig()
+
+        self.config = self.LoadConfig()
+
+    def LoadConfigPaths(self):
+
         if os.environ.get('MOOSCAN_CONFIG_PATH'):
             self.configdir = os.environ.get('MOOSCAN_CONFIG_PATH')
         else:
@@ -20,11 +31,8 @@ class ConfigHandler(object):
 
         self.configfile = self.configdir + '/' + self.CONFIG_FILE
 
-        # Path to the config
-        self.CreateConfigDirectory()
-        self.CreateConfig()
-
-        self.config = self.LoadConfig()
+    def GetConfigFile(self):
+        return self.configfile
 
     def CreateConfigDirectory(self):
         if not os.path.exists(self.configdir):
