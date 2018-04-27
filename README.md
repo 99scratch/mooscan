@@ -11,6 +11,8 @@ A scanning tool for Moodle LMS
 ## Docker Commands
 * Build container
     * `docker-compose --build up`
+* Run PEP8 tests
+    * `docker-compose run --entrypoint "pep8 -v *.py lib/"  mooscan`
 * Run unit-tests
     * `docker-compose run --entrypoint pytest mooscan`
 

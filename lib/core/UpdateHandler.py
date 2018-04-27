@@ -61,7 +61,7 @@ class UpdateHandler(object):
                                      '-c',
                                      '%Y',
                                      checkfile
-                                    ], stdout=subprocess.PIPE)
+                                     ], stdout=subprocess.PIPE)
         timestamp = int(lastchange.stdout.strip())
 
         exp = time.time() + (self.config['update_code_freq'] * 86400)
