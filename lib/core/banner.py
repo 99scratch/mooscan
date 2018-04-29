@@ -18,7 +18,6 @@ class banner(object):
 
         text = """MooScan - by @vortexau
 Please do not use this tool against environments you do not have
- explicit permission to scan. The author will not be held responsible
- for any unauthorised usage of this software.
-"""
+explicit permission to scan. The author will not be held responsible
+for any unauthorised usage of this software."""
         return banner + text
