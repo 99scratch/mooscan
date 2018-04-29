@@ -9,4 +9,4 @@ user_agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox
 
 # Configuration for the databases
 module_database: modules.db
-versions_database: versions.db
+code_database: versions.db

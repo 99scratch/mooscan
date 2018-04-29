@@ -8,10 +8,11 @@ from lib.core.DatabaseHandler import DatabaseHandler
 
 class UpdateHandler(object):
 
-    def __init__(self, arguments, config):
+    def __init__(self, arguments, config, db):
         print(config)
         self.args = arguments
         self.config = config
+        self.db = db
 
         self.build_git_path()
 
@@ -37,6 +38,8 @@ class UpdateHandler(object):
         self.gitpath = os.path.expanduser(path)
 
     def update_git(self):
+
+        self.db.create_code_db()
 
         if(os.path.exists(self.gitpath)):
             TextHandler().debug("Moodle code discovered at {dir}. "

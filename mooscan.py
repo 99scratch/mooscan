@@ -6,6 +6,7 @@ from lib.core.banner import banner
 from lib.core.ConfigHandler import ConfigHandler
 from lib.core.UpdateHandler import UpdateHandler
 from lib.core.CliArgHandler import CliArgHandler
+from lib.core.DatabaseHandler import DatabaseHandler
 
 
 arguments = None
@@ -21,7 +22,8 @@ def main():
 
     arguments = CliArgHandler().parse(sys.argv[1:])
 
-    UpdateHandler(arguments, loaded_config)
+    db = DatabaseHandler(arguments, loaded_config)
+    UpdateHandler(arguments, loaded_config, db)
 
 
 def startup_tasks():

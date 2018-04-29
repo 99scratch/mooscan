@@ -1,8 +1,10 @@
 # MooScan
-A scanning tool for Moodle LMS
+A scanning tool for Moodle LMS. 
 
 [![Build Status](https://travis-ci.org/vortexau/mooscan.svg?branch=master)](https://travis-ci.org/vortexau/mooscan) [![Python 3.4|3.5|3.6](https://img.shields.io/badge/python-3.4|3.5|3.6-brightgreen.svg)](https://www.python.org/) [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/) [![Twitter](https://img.shields.io/badge/twitter-@vortexau_-blue.svg)](https://twitter.com/vortexau)
 
+## Why?
+No specific tool existed previously, so in the spirit of [PoC||GTFO](https://www.alchemistowl.org/pocorgtfo/), I decided to [build my own fucking birdfeeder](https://www.alchemistowl.org/pocorgtfo/pocorgtfo02.pdf).
 
 ## Key Benefits
 * Allows administrators to determine exactly what is visible externally in their Moodle installation. 
