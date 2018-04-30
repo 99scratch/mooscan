@@ -22,4 +22,5 @@ class DatabaseHandler(object):
 
         if not os.path.isfile(code_db_path):
             # Create the SQLite database
-            TextHandler().info("Code version database was not found. Creating...")
+            TextHandler().info("Code version database was not found. "
+                               "Creating...")
