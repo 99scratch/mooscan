@@ -23,6 +23,7 @@ def main():
     arguments = CliArgHandler().parse(sys.argv[1:])
 
     db = DatabaseHandler(arguments, loaded_config)
+    db.connect()
     UpdateHandler(arguments, loaded_config, db)
 
 

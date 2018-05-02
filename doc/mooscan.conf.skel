@@ -8,5 +8,4 @@ moodle_git: https://github.com/moodle/moodle.git
 user_agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0
 
 # Configuration for the databases
-module_database: modules.db
-code_database: versions.db
+database: mooscan.db

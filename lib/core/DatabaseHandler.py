@@ -1,6 +1,9 @@
-import sqlite3
 import os
+import sqlalchemy
 from lib.core.TextHandler import TextHandler
+from lib.core.Models import Create
+from lib.core.Models import Code
+from lib.core.Models import Modules
 
 
 class DatabaseHandler(object):
@@ -9,18 +12,22 @@ class DatabaseHandler(object):
         self.arguments = arguments
         self.config = config
 
-    def create_databases(self):
-        print("check for databases and create if needed")
+    def create_database(self, engine):
+        TextHandler().debug("Creating Database")
 
-    def create_code_db(self):
-        if os.environ.get('MOOSCAN_DATA_PATH'):
-            basepath = os.environ.get('MOOSCAN_DATA_PATH')
-        else:
-            basepath = self.config['mooscan_path']
+        Create.Base.metadata.create_all(engine)
 
-        code_db_path = basepath + "/" + self.config['code_database']
+    def connect(self):
+        TextHandler().debug("Connecting to the database")
 
-        if not os.path.isfile(code_db_path):
-            # Create the SQLite database
-            TextHandler().info("Code version database was not found. "
-                               "Creating...")
+        db_path = "sqlite:///{path}/{db}".format(path=self.config['path'], db=self.config['database'])
+        TextHandler().debug("Database Path: {path}".format(path=db_path))
+        engine = sqlalchemy.create_engine(db_path)
+        try:
+            self.conn = engine.connect()
+        except:
+            self.create_database(engine)
+
+        if (not engine.dialect.has_table(engine, Modules.__tablename__)) and \
+            (not engine.dialect.has_table(engine, Code.__tablename__)):
+            self.create_database(engine)

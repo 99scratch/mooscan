@@ -39,8 +39,6 @@ class UpdateHandler(object):
 
     def update_git(self):
 
-        self.db.create_code_db()
-
         if(os.path.exists(self.gitpath)):
             TextHandler().debug("Moodle code discovered at {dir}. "
                                 "Getting latest."

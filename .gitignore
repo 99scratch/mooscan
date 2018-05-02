@@ -103,3 +103,4 @@ venv.bak/
 
 # Mooscan specifics
 .mooscan
+.DS_Store
