@@ -125,6 +125,15 @@ class UpdateHandler(object):
         plugins = 1500  # Will need to automate this
         batches = plugins / 30
         for batch in range(0, int(batches)):
+
+            print("\rDownloading: {batch}/{total}".format(
+                batch=(batch * 30),
+                total=plugins
+                ),
+                flush=True,
+                end=""
+                )
+
             query = self.update_query(batch)
 
             headers = {
