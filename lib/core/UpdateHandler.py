@@ -66,6 +66,10 @@ class UpdateHandler(object):
 
     def git_update_required(self):
         updatedata = self.db.get_updates()
+
+        if not updatedata:
+            return True
+
         lastupdate = json.loads(updatedata.updates)
 
         if lastupdate.get('code') is None:
@@ -82,6 +86,10 @@ class UpdateHandler(object):
 
     def modules_update_required(self):
         updatedata = self.db.get_updates()
+
+        if not updatedata:
+            return True
+
         lastupdate = json.loads(updatedata.updates)
 
         if lastupdate.get('modules') is None:
@@ -115,9 +123,8 @@ class UpdateHandler(object):
 
         # For testing we'll only pull 1 batch
         plugins = 1500  # Will need to automate this
-        batches = 1
-        # batches = plugins / 30
-        for batch in range(0, batches):
+        batches = plugins / 30
+        for batch in range(0, int(batches)):
             query = self.update_query(batch)
 
             headers = {
