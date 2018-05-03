@@ -10,9 +10,10 @@ class Modules(Create.Base):
     __tablename__ = 'modules'
 
     id = Column(Integer, primary_key=True)
-    type = Column(String)
-    name = Column(String)
-    name_frankenstyle = Column(String)
+    type = Column(String, index=True)
+    name = Column(String, index=True)
+    shortname = Column(String, index=True)
+    name_frankenstyle = Column(String, unique=True)
     desc = Column(String)
     lastrelease = Column(String)
     url = Column(String)

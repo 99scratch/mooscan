@@ -1,6 +1,8 @@
 import os
 import subprocess
 import time
+import json
+import requests
 from git import Repo
 from lib.core.TextHandler import TextHandler
 from lib.core.DatabaseHandler import DatabaseHandler
@@ -79,8 +81,54 @@ class UpdateHandler(object):
     def modules_update_required(self):
         return True
 
+    def update_query(self, batch):
+        outer = []
+        inner = {}
+        args  = {}
+        args['query'] = 'sort-by:publish'
+        args['batch'] = batch
+
+        inner['index'] = '0'
+        inner['methodname'] = 'local_plugins_get_plugins_batch'
+        inner['args'] = args
+
+        outer.append(inner)
+
+        return json.dumps(outer)
+
     def update_modules(self):
         TextHandler().debug("Update the modules and save into the database")
+
+        # For testing we'll only pull 1 batch
+        plugins = 1500 # Will need to automate this
+        batches = 1
+        # batches = plugins / 30
+        for batch in range(0, batches):
+            query = self.update_query(batch)
+
+            headers = {
+                'User-Agent': self.config['user_agent'],
+                'Content-Type': 'application/json',
+                'Content-Length': len(query)
+            }
+
+            url = 'https://moodle.org/lib/ajax/service.php'
+
+            request = requests.get(url, headers=headers, data=query)
+            jsondata = request.json()
+            resultset = jsondata[0]["data"]["grid"]["plugins"]
+
+            # Parse each result
+            for entry in resultset:
+
+                # There is the concept of 'other' non-plugin 
+                # modules now. We're skipping them for now..
+                # Example: https://moodle.org/plugins/view.php?id=1963
+                if entry['plugintype']['type'] == '_other_':
+                    continue
+
+                self.db.save_module(entry)
+
         TextHandler().debug("Done")
 
     def build_git(self):
