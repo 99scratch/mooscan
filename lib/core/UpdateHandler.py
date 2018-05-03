@@ -98,7 +98,7 @@ class UpdateHandler(object):
     def update_query(self, batch):
         outer = []
         inner = {}
-        args  = {}
+        args = {}
         args['query'] = 'sort-by:publish'
         args['batch'] = batch
 
@@ -114,7 +114,7 @@ class UpdateHandler(object):
         TextHandler().debug("Update the modules and save into the database")
 
         # For testing we'll only pull 1 batch
-        plugins = 1500 # Will need to automate this
+        plugins = 1500  # Will need to automate this
         batches = 1
         # batches = plugins / 30
         for batch in range(0, batches):
@@ -135,7 +135,7 @@ class UpdateHandler(object):
             # Parse each result
             for entry in resultset:
 
-                # There is the concept of 'other' non-plugin 
+                # There is the concept of 'other' non-plugin
                 # modules now. We're skipping them for now..
                 # Example: https://moodle.org/plugins/view.php?id=1963
                 if entry['plugintype']['type'] == '_other_':

@@ -6,11 +6,13 @@ class Create():
 
     Base = declarative_base()
 
+
 class DataUpdates(Create.Base):
     __tablename__ = 'dataupdates'
 
     id = Column(Integer, primary_key=True)
     updates = Column(String)
+
 
 class Modules(Create.Base):
     __tablename__ = 'modules'
@@ -23,6 +25,7 @@ class Modules(Create.Base):
     desc = Column(String)
     lastrelease = Column(String)
     url = Column(String)
+
 
 class Code(Create.Base):
     __tablename__ = 'code'

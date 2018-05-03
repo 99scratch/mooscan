@@ -24,7 +24,11 @@ class DatabaseHandler(object):
     def connect(self):
         TextHandler().debug("Connecting to the database")
 
-        db_path = "sqlite:///{path}/{db}".format(path=self.config['path'], db=self.config['database'])
+        db_path = "sqlite:///{path}/{db}".format(
+                path=self.config['path'],
+                db=self.config['database']
+                )
+
         TextHandler().debug("Database Path: {path}".format(path=db_path))
         engine = sqlalchemy.create_engine(db_path)
         try:
@@ -34,8 +38,8 @@ class DatabaseHandler(object):
             self.create_database(engine)
 
         if (not engine.dialect.has_table(engine, Modules.__tablename__)) and \
-            (not engine.dialect.has_table(engine, Code.__tablename__)) and \
-            (not engine.dialect.has_table(engine, DataUpdates.__tablename__)):
+           (not engine.dialect.has_table(engine, Code.__tablename__)) and \
+           (not engine.dialect.has_table(engine, DataUpdates.__tablename__)):
                 self.create_database(engine)
 
     def get_updates(self):
@@ -49,7 +53,7 @@ class DatabaseHandler(object):
     def save_updates(self, update):
         session = self.sess()
         # Save the update data here
-        lastupdate = session.query(DataUpdates).first() 
+        lastupdate = session.query(DataUpdates).first()
 
         if lastupdate is None:
             lastupdates = {}
@@ -77,7 +81,9 @@ class DatabaseHandler(object):
 
         session = self.sess()
 
-        thismodule = session.query(Modules).filter_by(name_frankenstyle=module['frankenstyle']).first()
+        thismodule = session.query(Modules).filter_by(
+                name_frankenstyle=module['frankenstyle']
+                ).first()
 
         if thismodule is None:
             thismodule = Modules(
@@ -100,4 +106,3 @@ class DatabaseHandler(object):
             thismodule.url = module['url']
 
         session.commit()
-
