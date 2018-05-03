@@ -20,9 +20,13 @@ class UpdateHandler(object):
 
         if(self.git_update_required() or self.args.update is True):
             self.update_git()
+        else:
+            TextHandler().debug("No update required for Moodle code")
 
         if(self.modules_update_required() or self.args.update is True):
             self.update_modules()
+        else:
+            TextHandler().debug("No update required for Moodle plugins")
 
     def build_git_path(self):
 
@@ -58,18 +62,16 @@ class UpdateHandler(object):
             Repo.clone_from(self.config['moodle_git'], self.gitpath)
             TextHandler().debug("Done")
 
-    def git_update_required(self):
-        checkfile = "{gitpath}/.git/FETCH_HEAD".format(gitpath=self.gitpath)
+        self.db.save_updates('code')
 
-        if not os.path.isfile(checkfile):
+    def git_update_required(self):
+        updatedata = self.db.get_updates()
+        lastupdate = json.loads(updatedata.updates)
+
+        if lastupdate.get('code') is None:
             return True
 
-        lastchange = subprocess.run(['stat',
-                                     '-c',
-                                     '%Y',
-                                     checkfile
-                                     ], stdout=subprocess.PIPE)
-        timestamp = int(lastchange.stdout.strip())
+        timestamp = int(lastupdate['code'])
 
         exp = time.time() + (self.config['update_code_freq'] * 86400)
 
@@ -79,7 +81,19 @@ class UpdateHandler(object):
             return False
 
     def modules_update_required(self):
-        return True
+        updatedata = self.db.get_updates()
+        lastupdate = json.loads(updatedata.updates)
+
+        if lastupdate.get('modules') is None:
+            return True
+
+        timestamp = int(lastupdate['modules'])
+        exp = time.time() + (self.config['update_module_freq'] * 86400)
+
+        if(int(exp) < int(timestamp)):
+            return True
+        else:
+            return False
 
     def update_query(self, batch):
         outer = []
@@ -128,6 +142,8 @@ class UpdateHandler(object):
                     continue
 
                 self.db.save_module(entry)
+
+        self.db.save_updates('modules')
 
         TextHandler().debug("Done")
 

@@ -6,6 +6,12 @@ class Create():
 
     Base = declarative_base()
 
+class DataUpdates(Create.Base):
+    __tablename__ = 'dataupdates'
+
+    id = Column(Integer, primary_key=True)
+    updates = Column(String)
+
 class Modules(Create.Base):
     __tablename__ = 'modules'
 

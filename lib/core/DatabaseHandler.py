@@ -1,10 +1,13 @@
 import os
 import sqlalchemy
+import time
+import json
 from sqlalchemy.orm import sessionmaker
 from lib.core.TextHandler import TextHandler
 from lib.core.Models import Create
 from lib.core.Models import Code
 from lib.core.Models import Modules
+from lib.core.Models import DataUpdates
 
 
 class DatabaseHandler(object):
@@ -31,8 +34,41 @@ class DatabaseHandler(object):
             self.create_database(engine)
 
         if (not engine.dialect.has_table(engine, Modules.__tablename__)) and \
-            (not engine.dialect.has_table(engine, Code.__tablename__)):
+            (not engine.dialect.has_table(engine, Code.__tablename__)) and \
+            (not engine.dialect.has_table(engine, DataUpdates.__tablename__)):
                 self.create_database(engine)
+
+    def get_updates(self):
+        session = self.sess()
+        updates = session.query(DataUpdates).first()
+        if updates is None:
+            return {}
+        else:
+            return updates
+
+    def save_updates(self, update):
+        session = self.sess()
+        # Save the update data here
+        lastupdate = session.query(DataUpdates).first() 
+
+        if lastupdate is None:
+            lastupdates = {}
+        else:
+            lastupdates = json.loads(lastupdate.updates)
+
+        if update == 'modules':
+            lastupdates['modules'] = int(time.time())
+        elif update == 'code':
+            lastupdates['code'] = int(time.time())
+
+        if lastupdate is None:
+            data = json.dumps(lastupdates)
+            thisupdate = DataUpdates(updates=data)
+            session.add(thisupdate)
+        else:
+            lastupdate.updates = json.dumps(lastupdates)
+
+        session.commit()
 
     def save_module(self, module):
 
@@ -43,7 +79,7 @@ class DatabaseHandler(object):
 
         thismodule = session.query(Modules).filter_by(name_frankenstyle=module['frankenstyle']).first()
 
-        if module is None:
+        if thismodule is None:
             thismodule = Modules(
                  type=module['plugintype']['type'],
                  name=module['name'],
