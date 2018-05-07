@@ -126,12 +126,12 @@ class UpdateHandler(object):
         batches = plugins / 30
         for batch in range(0, int(batches)):
 
-            print("\rDownloading: {batch}/{total}".format(
+            print("Downloading: {batch}/{total}".format(
                 batch=(batch * 30),
                 total=plugins
                 ),
                 flush=True,
-                end=""
+                end="\r"
                 )
 
             query = self.update_query(batch)
@@ -162,9 +162,3 @@ class UpdateHandler(object):
         self.db.save_updates('modules')
 
         TextHandler().debug("Done")
-
-    def build_git(self):
-        print("Build git")
-
-    def build_modules(self):
-        print("Build modules")
