@@ -75,14 +75,19 @@ class UpdateHandler(object):
         # "in the cloud" and offer a service for clients to update from
         # with this pre-parsed, it'll have to do...
 
+        TextHandler().debug("Processing Moodle Code "
+                "in dir {dir}".format(dir=self.gitpath))
         moodlegit = Repo(self.gitpath)
         tags = moodlegit.tags
 
         for tag in tags:
+            print(tag.name, end='')
             if re.match('^v1.[0-6]', tag.name):
-                print(tag.name)
+                print(" match")
                 # unset the item from the list
                 tags.remove(tag)
+            else:
+                print(" no match")
 
         TextHandler().info("Processing Moodle tagged versions...")
         for tag in tags:
@@ -95,7 +100,8 @@ class UpdateHandler(object):
             # If there is no lib/db/install.xml, we don't care. It's too old.
             # You'll have to go old-school..
             if not os.path.exists(self.gitpath + '/lib/db/install.xml'):
-                print("\r", end='')
+                #print("\r", end='')
+                print("")
                 continue
 
             globpath = "{path}/**/*".format(path=self.gitpath)
