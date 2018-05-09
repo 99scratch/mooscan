@@ -5,6 +5,7 @@ import json
 import requests
 import glob
 import re
+import hashlib
 from git import Repo
 from lib.core.TextHandler import TextHandler
 from lib.core.DatabaseHandler import DatabaseHandler
@@ -75,25 +76,22 @@ class UpdateHandler(object):
         # "in the cloud" and offer a service for clients to update from
         # with this pre-parsed, it'll have to do...
 
+        BUF = 65536
+
         TextHandler().debug("Processing Moodle Code "
                 "in dir {dir}".format(dir=self.gitpath))
         moodlegit = Repo(self.gitpath)
-        tags = moodlegit.tags
-
-        for tag in tags:
-            print(tag.name, end='')
-            if re.match('^v1.[0-6]', tag.name):
-                print(" match")
-                # unset the item from the list
-                tags.remove(tag)
-            else:
-                print(" no match")
+        #tags = moodlegit.tags
+        tags = sorted(moodlegit.tags, key=lambda t: t.commit.committed_date)
 
         TextHandler().info("Processing Moodle tagged versions...")
         for tag in tags:
-            moodlegit.git.checkout(tag.name, force=True)
 
-            # Nothing of interest is in Moodle before 1.7..
+            # Nothing of interest in Moodle before 1.7.
+            if re.match('^v1.[0-6]', tag.name):
+                continue
+
+            moodlegit.git.checkout(tag.name, force=True)
 
             print("Tag: {tag}".format(tag=tag.name), end='')
 
@@ -105,16 +103,16 @@ class UpdateHandler(object):
                 continue
 
             globpath = "{path}/**/*".format(path=self.gitpath)
-            for strmdlfile in glob.glob(globpath, recursive=True):
-                print(strmdlfile, flush=True)
+            for mdlfile in glob.glob(globpath, recursive=True):
                 # Hash the file content itself
-                strmdlfile = os.path.normpath(self.gitpath + "/" + str(mdlfile.decode()))
+                strmdlfile = os.path.normpath(mdlfile)
 
                 if os.path.isdir(strmdlfile):
                     continue
 
                 ignore = ['.php','.gif','.png','.jpg','.git']
-                if strmdlfile in ignore:
+                #if strmdlfile in ignore:
+                if any(s in strmdlfile for s in ignore):
                     continue
 
                 filehash = hashlib.md5()
@@ -128,8 +126,8 @@ class UpdateHandler(object):
                     # If the file is 'install.xml' parse it, pull out the version number, save that too.
                     if 'install.xml' in strmdlfile:
                         print("**install.xml found** : {file}".format(file=strmdlfile))
-                except:
-                    print("FNF {file}".format(file=strmdlfile))  
+                except Exception as e:
+                    print("FNF {file}, E: {e}".format(file=strmdlfile, e=str(e)))
 
     def git_update_required(self):
         updatedata = self.db.get_updates()
