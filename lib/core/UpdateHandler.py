@@ -138,9 +138,21 @@ class UpdateHandler(object):
                     if 'install.xml' in strmdlfile:
                         print("**install.xml found** : {file}"
                               .format(file=strmdlfile))
+
+                        # What type of plugin is it?
+                        # Split the provided path on the slashes.
+
+                        # What is the version?
+                        version = self.get_installxml_version(strmdlfile)
+
                 except Exception as e:
                     print("FNF {file}, E: {e}"
                           .format(file=strmdlfile, e=str(e)))
+
+
+    def get_installxml_version(self, filepath):
+        print("Parse the file at {file}".format(file=filepath))
+
 
     def git_update_required(self):
         updatedata = self.db.get_updates()
