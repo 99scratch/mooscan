@@ -1,10 +1,17 @@
 # MooScan
-A scanning tool for Moodle LMS. 
+A scanning tool for Moodle LMS, after v1.7.0
 
 [![Build Status](https://travis-ci.org/vortexau/mooscan.svg?branch=master)](https://travis-ci.org/vortexau/mooscan) [![Python 3.4|3.5|3.6](https://img.shields.io/badge/python-3.4|3.5|3.6-brightgreen.svg)](https://www.python.org/) [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/) [![Twitter](https://img.shields.io/badge/twitter-@vortexau_-blue.svg)](https://twitter.com/vortexau)
 
+## How does it work?
+MooScan downloads a copy of the public Moodle GIT repository and pulls in files of interest which can be used to determine the installed Moodle version, determine if local public changes have been made, and allows brute-force scanning of an install to determine any and all installed plugins (and their versions, too!)
+
+Moodle itself includes a lot of content inside its web root that can be very revealing. Information such as composer.json, package.json, npm-shrinkwrap.json which all include version numbers used to build libraries; install.xml files used to setup databases which include version numbers, and in some older versions, .html files which include PHP - these files are pulled in by Moodle, and, in some cases, may have been modified by admins to include their *production* values (auth/ldap/config.html I'm looking at *you*!)
+
 ## Why?
-No specific tool existed previously, so in the spirit of [PoC||GTFO](https://www.alchemistowl.org/pocorgtfo/), I decided to [build my own fucking birdfeeder](https://www.alchemistowl.org/pocorgtfo/pocorgtfo02.pdf).
+In a previous life, I was a developer maintaining a large Moodle install (35k users) and while we were careful with our install, I realised that others may not be so careful..
+
+No specific tool existed then, so in the spirit of [PoC||GTFO](https://www.alchemistowl.org/pocorgtfo/), I decided to [build my own fucking birdfeeder](https://www.alchemistowl.org/pocorgtfo/pocorgtfo02.pdf).
 
 ## Key Benefits
 * Allows administrators to determine exactly what is visible externally in their Moodle installation. 
