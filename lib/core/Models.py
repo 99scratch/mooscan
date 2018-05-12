@@ -31,3 +31,22 @@ class Code(Create.Base):
     __tablename__ = 'code'
 
     id = Column(Integer, primary_key=True)
+
+
+class Tags(Create.Base):
+    __tablename__ = 'tags'
+
+    id = Column(Integer, primary_key=True)
+    tag = Column(String, unique=True)
+
+
+class Files(Create.Base):
+    __tablename__ = 'files'
+
+    id = Column(Integer, primary_key=True)
+    tag = Column(Integer,
+                 ForeignKey("tags.id"),
+                 nullable=False,
+                 index=True)
+    filepath = Column(String, index=True)
+    filehash = Column(String, index=True)
