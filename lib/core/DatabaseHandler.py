@@ -8,6 +8,9 @@ from lib.core.Models import Create
 from lib.core.Models import Code
 from lib.core.Models import Modules
 from lib.core.Models import DataUpdates
+from lib.core.Models import Tags
+from lib.core.Models import Versions
+from lib.core.Models import Files
 
 
 class DatabaseHandler(object):
@@ -49,6 +52,20 @@ class DatabaseHandler(object):
             return {}
         else:
             return updates
+
+    def save_tag(self, thistag):
+        session = self.sess()
+
+        tag = session.query(Tags).filter_by(
+                tag = thistag
+                ).first()
+
+        if tag is None:
+            tag = Tags(tag=thistag)
+            session.add(tag)
+
+        session.commit()
+        return tag.id
 
     def save_updates(self, update):
         session = self.sess()

@@ -92,7 +92,9 @@ class UpdateHandler(object):
 
             moodlegit.git.checkout(tag.name, force=True)
 
-            print("Tag: {tag}".format(tag=tag.name), end='')
+            tagid = self.db.save_tag(tag.name)
+
+            print("Tag: {tag}, DB ID: {id}".format(tag=tag.name, id=tagid), end='')
 
             # If there is no lib/db/install.xml, we don't care. It's too old.
             # You'll have to go old-school..
@@ -131,10 +133,10 @@ class UpdateHandler(object):
                         for chunk in iter(lambda: f.read(BUF), b""):
                             filehash.update(chunk)
 
-                    print(strmdlfile + " MD5: " + filehash.hexdigest())
+                    #print(strmdlfile + " MD5: " + filehash.hexdigest())
 
                     # If the file is 'install.xml' parse it, pull out the
-                    # version number, save that too.
+                    # path, version number and comment, save that too.
                     if 'install.xml' in strmdlfile:
                         print("**install.xml found** : {file}"
                               .format(file=strmdlfile))
@@ -143,12 +145,18 @@ class UpdateHandler(object):
                         # Split the provided path on the slashes.
 
                         # What is the version?
-                        version = self.get_installxml_version(strmdlfile)
+                        #version = self.get_installxml_version(strmdlfile)
+
+                    # Save the file
+                    # self.save_database_file(strmdlfile)
+
 
                 except Exception as e:
                     print("FNF {file}, E: {e}"
                           .format(file=strmdlfile, e=str(e)))
 
+    def save_database_file(self, strmdlfile):
+        print("Save {file} into the db".format(file=strmdlfile))
 
     def get_installxml_version(self, filepath):
         print("Parse the file at {file}".format(file=filepath))

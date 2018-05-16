@@ -50,3 +50,16 @@ class Files(Create.Base):
                  index=True)
     filepath = Column(String, index=True)
     filehash = Column(String, index=True)
+
+class Versions(Create.Base):
+    __tablename__ = 'versions'
+
+    id = Column(Integer, primary_key=True)
+    tag = Column(Integer,
+                 ForeignKey("tags.id"),
+                 nullable=False,
+                 index=True)
+    filepath = Column(String, index=True)
+    version = Column(Integer, index=True)
+    comment = Column(String)
+
