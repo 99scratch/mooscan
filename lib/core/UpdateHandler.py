@@ -217,7 +217,7 @@ class UpdateHandler(object):
         return json.dumps(outer)
 
     def update_modules(self):
-        TextHandler().debug("Update the modules and save into the database")
+        TextHandler().info("Update the modules and save into the database")
 
         # For testing we'll only pull 1 batch
         plugins = 1500  # Will need to automate this
@@ -259,4 +259,5 @@ class UpdateHandler(object):
 
         self.db.save_updates('modules')
 
-        TextHandler().debug("Done")
+        TextHandler().info("")
+        TextHandler().info("Done")
