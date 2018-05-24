@@ -67,6 +67,28 @@ class DatabaseHandler(object):
         session.commit()
         return tag.id
 
+    def save_file_version(self, fileinfo):
+        session = self.sess()
+
+        ver = session.query(Versions).filter_by(
+            tag = fileinfo['tag'],
+            filepath = fileinfo['path'],
+            version = fileinfo['version'],
+            comment = fileinfo['comment'],
+            filehash = fileinfo['hash']).first()
+
+        if ver is None:
+            ver = Versions(
+                    tag = fileinfo['tag'],
+                    filepath = fileinfo['path'],
+                    version = fileinfo['version'],
+                    comment = fileinfo['comment'],
+                    filehash = fileinfo['hash'])
+
+            session.add(ver)
+
+        session.commit()
+
     def save_updates(self, update):
         session = self.sess()
         # Save the update data here

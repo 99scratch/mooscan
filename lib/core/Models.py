@@ -62,4 +62,5 @@ class Versions(Create.Base):
     filepath = Column(String, index=True)
     version = Column(Integer, index=True)
     comment = Column(String)
+    filehash = Column(String, index=True)
 

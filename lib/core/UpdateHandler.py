@@ -9,6 +9,7 @@ import hashlib
 from git import Repo
 from lib.core.TextHandler import TextHandler
 from lib.core.DatabaseHandler import DatabaseHandler
+import xml.etree.ElementTree as ET
 
 
 class UpdateHandler(object):
@@ -133,19 +134,21 @@ class UpdateHandler(object):
                         for chunk in iter(lambda: f.read(BUF), b""):
                             filehash.update(chunk)
 
+                    thishash = filehash.hexdigest()
                     #print(strmdlfile + " MD5: " + filehash.hexdigest())
 
                     # If the file is 'install.xml' parse it, pull out the
                     # path, version number and comment, save that too.
                     if 'install.xml' in strmdlfile:
-                        print("**install.xml found** : {file}"
-                              .format(file=strmdlfile))
-
                         # What type of plugin is it?
                         # Split the provided path on the slashes.
 
                         # What is the version?
-                        #version = self.get_installxml_version(strmdlfile)
+                        info = self.get_installxml_info(strmdlfile)
+                        info['tag'] = tagid
+                        info['hash'] = thishash
+
+                        self.db.save_file_version(info)
 
                     # Save the file
                     # self.save_database_file(strmdlfile)
@@ -158,9 +161,19 @@ class UpdateHandler(object):
     def save_database_file(self, strmdlfile):
         print("Save {file} into the db".format(file=strmdlfile))
 
-    def get_installxml_version(self, filepath):
-        print("Parse the file at {file}".format(file=filepath))
+    def get_installxml_info(self, filepath):
 
+        ret = {}
+
+        with open(filepath, 'r') as myfile:
+            filecontent = myfile.read()
+
+        xmlcontent = ET.fromstring(filecontent)
+        ret['version'] = xmlcontent.attrib.get('VERSION')
+        ret['path'] = xmlcontent.attrib.get('PATH')
+        ret['comment'] = xmlcontent.attrib.get('COMMENT')
+
+        return ret
 
     def git_update_required(self):
         updatedata = self.db.get_updates()
