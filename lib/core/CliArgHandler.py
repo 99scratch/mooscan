@@ -38,6 +38,39 @@ class CliArgHandler(object):
         )
 
         parser.add_argument(
+            '-t',
+            '--themes',
+            action='store_true',
+            help='Scan for installed themes'
+        )
+
+        parser.add_argument(
+            '-mv',
+            '--mdlversion',
+            action='store_true',
+            help='Try to determine the version of the Moodle install'
+        )
+
+        parser.add_argument(
+            '--plugin',
+            action='store_true',
+            help='Try to determine any installed plugins installed on the target Moodle'
+        )
+
+        parser.add_argument(
+            '-vu',
+            '--vulns',
+            action='store_true',
+            help='Detect any known and/pr cpmmon bulns in the target Moodle'
+        )
+
+        parser.add_argument(
+            '--public',
+            action='store_true',
+            help='Scan for public files which may contain sensitive or interesting info'
+        )
+
+        parser.add_argument(
             '-ht',
             '--htaccess',
             action='store_true',

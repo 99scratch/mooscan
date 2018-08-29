@@ -115,6 +115,9 @@ class DatabaseHandler(object):
 
     def save_module(self, module):
 
+        if module['frankenstyle'] is None:
+            return
+
         nameparts = module['frankenstyle'].split('_')
         shortname = nameparts[1]
 

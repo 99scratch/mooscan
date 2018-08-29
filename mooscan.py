@@ -7,6 +7,7 @@ from lib.core.ConfigHandler import ConfigHandler
 from lib.core.UpdateHandler import UpdateHandler
 from lib.core.CliArgHandler import CliArgHandler
 from lib.core.DatabaseHandler import DatabaseHandler
+from lib.core.ScanHandler import ScanHandler
 
 
 arguments = None
@@ -26,6 +27,7 @@ def main():
     db.connect()
     UpdateHandler(arguments, loaded_config, db)
 
+    ScanHandler(arguments, loaded_config, db)
 
 def startup_tasks():
     print("Startup")

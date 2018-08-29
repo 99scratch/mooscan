@@ -6,6 +6,7 @@ import requests
 import glob
 import re
 import hashlib
+import git
 from git import Repo
 from lib.core.TextHandler import TextHandler
 from lib.core.DatabaseHandler import DatabaseHandler
@@ -23,7 +24,10 @@ class UpdateHandler(object):
         self.build_git_path()
 
         if(self.git_update_required() or self.args.update is True):
-            self.update_git()
+            try:
+                self.update_git()
+            except git.exc.GitCommandError as e:
+                TextHandler().error("Error encountered: {error}".format(error=e))
         else:
             TextHandler().debug("No update required for Moodle code")
 
